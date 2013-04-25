@@ -19,6 +19,8 @@
 
 #include "pe.h"
 
+#define __USE_BSD     /* for madvise */
+#define __USE_XOPEN2K /* for strerro_r */
 #include <errno.h>
 #include <fcntl.h>
 #include <stddef.h>
