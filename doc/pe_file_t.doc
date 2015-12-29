@@ -1,0 +1,46 @@
+This structure is pe_file_t that defines the pe file format sections.
+In the very first structure of the binary "IMAGE_DOS_HEADER" is defined DOS stuff. See below:
+
+typedef struct {
+        uint16_t e_magic;
+        uint16_t e_cblp;        //Bytes on last page of file
+        uint16_t e_cp;          //Pages in file
+        uint16_t e_crlc;        //Relocations
+        uint16_t e_cparhdr;     //Size of headers in paragraphs
+        uint16_t e_minalloc;    //Minimum extra paragraphs needed
+        uint16_t e_maxalloc;    //Maximum extra paragraphs needed
+        uint16_t e_ss;          //Initial (relative) SS value
+        uint16_t e_sp;          //Initial SP value
+        uint16_t e_csum;        //Checksum
+        uint16_t e_ip;          //Initial IP value
+        uint16_t e_cs;          //Initial (relative) CS value
+        uint16_t e_lfarlc;      //File address of relocation table
+        uint16_t e_ovno;        //Overlay number 
+        uint16_t e_res[4];      //Reserved words 
+        uint16_t e_oemid;       //OEM identifier (for e_oeminfo)
+        uint16_t e_oeminfo;     //OEM information: e_oemid specific
+        uint16_t e_res2[10];    //Reserved words
+        int32_t e_lfanew; // sizeof(IMAGE_DOS_HEADER) + size of MS-DOS stub
+} IMAGE_DOS_HEADER;
+
+We care about only two fields in this structure: e_magic and e_lfanew. The value of e_magic is always 4D 5A which means 'MZ' in ASCII (for curiosity, MZ is from Mark Zbikowski who developed MS-DOS). The e_lfanew is a field that define the offset for the next field in owr structure pe_file_t.
+
+uint32_t signature;
+
+The next field is the signature with value 0x00004550, which is 'PE' in ASCII. Otherwise, is a ponter to the next structure.
+
+Now we have the structure "IMAGE_COFF_HEADER" ilustrated below:
+typedef struct {
+        uint16_t Machine; // MachineType
+        uint16_t NumberOfSections;
+        uint32_t TimeDateStamp;
+        uint32_t PointerToSymbolTable;
+        uint32_t NumberOfSymbols;
+        uint16_t SizeOfOptionalHeader;
+        uint16_t Characteristics; // ImageCharacteristics
+} IMAGE_FILE_HEADER, IMAGE_COFF_HEADER;
+
+The first field, defines the machine type that can be found in the enum "MachineType" at libpe/hdr_coff.hi. This field is the first indication about 32 or 64 binary.
+                                                                                                                                                                                                 1,7           Top
+Then the NumberOfSections that defines the number of sections that the binary have imediatelly after the optional header. The TimeDateStamp field defines the time that the binary was linked.
+
