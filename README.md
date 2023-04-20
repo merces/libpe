@@ -1,5 +1,7 @@
 # libpe
 
+:warning: libpe has moved under [@mentebinaria/readpe](https://github.com/mentebinaria/readpe). :warning:
+
 [![LGPLv3](https://www.gnu.org/graphics/lgplv3-88x31.png)](http://www.gnu.org/licenses/lgpl.html) ![C/C++ CI](https://github.com/merces/libpe/workflows/C/C++%20CI/badge.svg)
 
 The PE library used by [pev](https://github.com/merces/pev) - the PE file toolkit purely written in C and available to many platforms.
